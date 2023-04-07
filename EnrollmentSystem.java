@@ -3,9 +3,9 @@ import java.util.Scanner;
 import java.time.Year;
 
 public class EnrollmentSystem {
-	public static ArrayList<Student> students = new ArrayList<Student>();
+	public static ArrayList<Student> student = new ArrayList<Student>();
 	public static ArrayList<Subject> subject = new ArrayList<Subject>();
-	public static String fullName = "";
+	public static String fullName = "", section;
 	public static int age;
 	public static int currentYear = Year.now().getValue();
 	public static int nextYear = currentYear + 1;
@@ -14,10 +14,15 @@ public class EnrollmentSystem {
 	public static void main(String[] args) {
 		Scanner scanner = new Scanner(System.in);
 		String level = "", firstName, lastName, middleName, email;
-		boolean validForm = false, exit = false, isValidLevel = false, validAge = false;
-		int sectionAEnrolled = 0, sectionBEnrolled = 0;
+		boolean validForm = false, exit = false, isValidLevel = false, validAge = false, enrolled = false;
+		int section1AEnrolled = 0, section1BEnrolled = 0;
+		int section2AEnrolled = 0, section2BEnrolled = 0;
+		int section3AEnrolled = 0, section3BEnrolled = 0;
+		int section4AEnrolled = 0, section4BEnrolled = 0;
+		int section5AEnrolled = 0, section5BEnrolled = 0;
+		int section6AEnrolled = 0, section6BEnrolled = 0;
 
-		System.out.println("\n\nWelcome student!");
+		System.out.println("\n\nWelcome!");
 		while (!exit) {
 			System.out.println("\n1. Enroll");
 			System.out.println("2. Exit");
@@ -31,7 +36,11 @@ public class EnrollmentSystem {
 								System.out.print("Enter your age: ");
 								String ageStr = scanner.nextLine();
 								age = Integer.parseInt(ageStr);
-								validAge = true;
+								if(age < 1){
+									System.out.println("\nPlease enter a valid age\n");
+								}else{
+									validAge = true;
+								}
 							} catch (NumberFormatException e) {
 								System.out.println("\nPlease enter a valid age\n");
 							}
@@ -108,15 +117,80 @@ public class EnrollmentSystem {
 						String confirm = scanner.nextLine();
 
 						if(confirm.equalsIgnoreCase("y")){
-							if(sectionAEnrolled < 10){
-								sectionAEnrolled++;
-								getORF(firstName, lastName, middleName, email, "Section A");
-							}else if(sectionBEnrolled < 10){
-								sectionBEnrolled++;
-								getORF(firstName, lastName, middleName, email, "Section B");
-							}else{
-								System.out.println("All sections are full. Cannot enroll student.");
+							switch(level){
+								case "1":
+									if(section1AEnrolled < 10){
+										section1AEnrolled++;
+										section = "1-A";
+										enrolled = true;
+									}else if(section1BEnrolled < 10){
+										section1BEnrolled++;
+										section = "1-B";
+										enrolled = true;
+									}
+									break;
+								case "2":
+									if(section2AEnrolled < 10){
+										section2AEnrolled++;
+										section = "2-A";
+										enrolled = true;
+									}else if(section2BEnrolled < 10){
+										section2BEnrolled++;
+										section = "2-B";
+										enrolled = true;
+									}
+									break;
+								case "3":
+									if(section3AEnrolled < 10){
+										section3AEnrolled++;
+										section = "3-A";
+										enrolled = true;
+									}else if(section3BEnrolled < 10){
+										section3BEnrolled++;
+										section = "3-B";
+										enrolled = true;
+									}
+									break;
+								case "4":
+									if(section4AEnrolled < 10){
+										section4AEnrolled++;
+										section = "4-A";
+										enrolled = true;
+									}else if(section4BEnrolled < 10){
+										section4BEnrolled++;
+										section = "4-B";
+										enrolled = true;
+									}
+									break;
+								case "5":
+									if(section5AEnrolled < 10){
+										section5AEnrolled++;
+										section = "5-A";
+										enrolled = true;
+									}else if(section5BEnrolled < 10){
+										section5BEnrolled++;
+										section = "5-B";
+										enrolled = true;
+									}
+									break;
+								case "6":
+									if(section6AEnrolled < 10){
+										section6AEnrolled++;
+										section = "6-A";
+										enrolled = true;
+									}else if(section6BEnrolled < 10){
+										section6BEnrolled++;
+										section = "6-B";
+										enrolled = true;
+									}
+									break;
 							}
+							if(enrolled){
+								getORF(firstName, lastName, middleName, email, section);
+							}else{
+								System.out.println("\n\nUnfortunately, all sections in this grade level are currently full. We regret to inform you that we cannot enroll the student at this time.");
+							}
+							subject.clear();
 							break;
 						}else{
 							continue;
@@ -128,14 +202,14 @@ public class EnrollmentSystem {
 					System.exit(0);
 					break;
 				default:
-					System.out.println("\nInvalid input!\n");
+					System.out.println("\nInvalid input!");
 			}
 		}
 		scanner.close();
 	}
 	
 	public static void getORF(String firstName, String lastName, String middleName, String email, String section){
-		students.add(new Student(firstName, lastName, middleName, email));
+		student.add(new Student(firstName, lastName, middleName, email, section));
 		System.out.println("\n\n\n\nStudent Name: " + fullName.toUpperCase()
 		+ "\nSection: " + section
 		+ "\nSchool Year: " + schoolYear + "\n"
@@ -145,6 +219,7 @@ public class EnrollmentSystem {
 		for (Subject subjects : subject) {
 			System.out.printf("%-20s%-20s%-20d\n", subjects.getSubjectName(), subjects.getCode(),subjects.getCreditHours());
 		}
+
 	}
 
 	public static void addSubject(String gradeLevel){
