@@ -6,15 +6,14 @@ public class EnrollmentSystem {
 	// nag initialize ta diri og global array og variables para ma access sa tanan method (main method, getORF method, og ang addSubject method)
 	public static ArrayList<Subject> subject = new ArrayList<Subject>();
 	public static String fullName = "", section;
-	public static int age;
 	public static int currentYear = Year.now().getValue();
 	public static int nextYear = currentYear + 1;
 	public static String schoolYear = String.format("%d-%d", currentYear, nextYear);
 	public static void main(String[] args) {
 		Scanner scanner = new Scanner(System.in);
- 		String firstName, lastName, middleName, email;
-		boolean validForm = false, exit = false, validAge = false, enrolled = false;
-		int sectionAEnrolled = 10, sectionBEnrolled = 10;
+ 		String firstName, lastName, middleName, email, birthday, gender;
+		boolean validForm = false, exit = false, enrolled = false;
+		int sectionAEnrolled = 0, sectionBEnrolled = 0;
 		System.out.printf("\n\nWelcome to Enrollment System for School year %s!\n", schoolYear);
 		while (!exit) {
 			System.out.print("\n1. Enroll\n2. Exit\nEnter your choice: ");
@@ -22,24 +21,8 @@ public class EnrollmentSystem {
 			switch(choice){
 				case "1":
 					System.out.println("\n-------------Enter personal information-------------\n");
-					while(true){
-						do {
-							// try and catch like eh try sa niya ni nga code and if naay error, eh execute tanan naa sa catch{} example:  try{ eh execute tanan code diri } catch() { execute tanan code diri if naay error }
-							try {
-								System.out.print("Enter your age: ");
-								String ageStr = scanner.nextLine();
-								age = Integer.parseInt(ageStr);
-								if(age < 1){
-									System.out.println("\nPlease enter a valid age\n");
-								}else{
-									validAge = true;
-								}
-							} catch (NumberFormatException e) {
-								System.out.println("\nPlease enter a valid age\n");
-							}
-						} while (!validAge);
 						do{
-							System.out.print("\nEnter your first name: ");
+							System.out.print("Enter your first name: ");
 							firstName = scanner.nextLine();
 							System.out.print("Enter your last name: ");
 							lastName = scanner.nextLine();
@@ -47,15 +30,35 @@ public class EnrollmentSystem {
 							middleName = scanner.nextLine();
 							System.out.print("Enter your email: ");
 							email = scanner.nextLine();
+									
+							do{
+								System.out.print("Enter your birthday (in the format MM/DD/YYYY): ");
+								birthday = scanner.nextLine();
+								if(birthday.matches("\\d{2}/\\d{2}/\\d{4}")){
+									break;
+								}else{
+									System.out.println("\nInvalid input. Please enter your birthday in the format MM/DD/YYYY");
+								}
+							}while(true);
+
+							do{
+								System.out.print("Enter your gender (M/F): ");
+								gender = scanner.nextLine().toUpperCase();
+								if(gender.equals("M") || gender.equals("F")){
+									break;				
+								}else{
+									System.out.println("\nInvalid input. Please enter M or F for gender.");
+								}
+							}while(true);
 							// validation ni siya if naay empty input like walay gi butang si user
-							if(firstName.equals("") || lastName.equals("") || middleName.equals("") || email.equals("")){
+							if(firstName.equals("") || lastName.equals("") || middleName.equals("") || email.equals("") || birthday.equals("") || gender.equals("")){
 								System.out.println("\nThere was an empty input please try again.");
 							}else{
 								fullName = lastName + ", " + firstName + " " + middleName; 
 								validForm = true;
 							}
 						}while(!validForm);
-						System.out.print("\nPlease confirm if you want to proceed with the following information: \n\n"+ "Full Name: " + fullName.toUpperCase() + "\nEmail: " + email+ "\nAge: " + age + "\n\nType Y to confirm or type any other key to make any changes: ");
+						System.out.print("\nPlease confirm if you want to proceed with the following information: \n\n"+ "Full Name: " + fullName.toUpperCase() + "\nEmail: " + email + "\nBirthday: " + birthday + "\nGender: " + gender + "\n\nType Y to confirm or type any other key to make any changes: ");
 						String confirm = scanner.nextLine();
 						// validation diri if puno naba ang section A og B
 						if(confirm.equalsIgnoreCase("y")){
@@ -83,8 +86,6 @@ public class EnrollmentSystem {
 						}else{
 							continue;
 						}
-					}
-					break;
 				case "2":
 					System.out.println("\nExiting program...");
 					System.exit(0);
