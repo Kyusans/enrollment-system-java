@@ -3,35 +3,28 @@ import java.util.Scanner;
 import java.time.Year;
 
 public class EnrollmentSystem {
-	public static ArrayList<Student> student = new ArrayList<Student>();
+	// nag initialize ta diri og global array og variables para ma access sa tanan method (main method, getORF method, og ang addSubject method)
 	public static ArrayList<Subject> subject = new ArrayList<Subject>();
 	public static String fullName = "", section;
 	public static int age;
 	public static int currentYear = Year.now().getValue();
 	public static int nextYear = currentYear + 1;
 	public static String schoolYear = String.format("%d-%d", currentYear, nextYear);
-
 	public static void main(String[] args) {
 		Scanner scanner = new Scanner(System.in);
-		String level = "", firstName, lastName, middleName, email;
-		boolean validForm = false, exit = false, isValidLevel = false, validAge = false, enrolled = false;
-		int section1AEnrolled = 0, section1BEnrolled = 0;
-		int section2AEnrolled = 0, section2BEnrolled = 0;
-		int section3AEnrolled = 0, section3BEnrolled = 0;
-		int section4AEnrolled = 0, section4BEnrolled = 0;
-		int section5AEnrolled = 0, section5BEnrolled = 0;
-		int section6AEnrolled = 0, section6BEnrolled = 0;
-
-		System.out.println("\n\nWelcome!");
+ 		String firstName, lastName, middleName, email;
+		boolean validForm = false, exit = false, validAge = false, enrolled = false;
+		int sectionAEnrolled = 10, sectionBEnrolled = 10;
+		System.out.printf("\n\nWelcome to Enrollment System for School year %s!\n", schoolYear);
 		while (!exit) {
-			System.out.println("\n1. Enroll");
-			System.out.println("2. Exit");
-			System.out.print("Enter your choice: ");
+			System.out.print("\n1. Enroll\n2. Exit\nEnter your choice: ");
 			String choice = scanner.nextLine();
 			switch(choice){
 				case "1":
+					System.out.println("\n-------------Enter personal information-------------\n");
 					while(true){
 						do {
+							// try and catch like eh try sa niya ni nga code and if naay error, eh execute tanan naa sa catch{} example:  try{ eh execute tanan code diri } catch() { execute tanan code diri if naay error }
 							try {
 								System.out.print("Enter your age: ");
 								String ageStr = scanner.nextLine();
@@ -54,142 +47,37 @@ public class EnrollmentSystem {
 							middleName = scanner.nextLine();
 							System.out.print("Enter your email: ");
 							email = scanner.nextLine();
+							// validation ni siya if naay empty input like walay gi butang si user
 							if(firstName.equals("") || lastName.equals("") || middleName.equals("") || email.equals("")){
 								System.out.println("\nThere was an empty input please try again.");
 							}else{
+								fullName = lastName + ", " + firstName + " " + middleName; 
 								validForm = true;
 							}
 						}while(!validForm);
-
-						while(!isValidLevel){
-							System.out.print("What year do you want to enroll? \n"
-							+ "(1) Grade 1\n"
-							+ "(2) Grade 2\n"
-							+ "(3) Grade 3\n"
-							+ "(4) Grade 4\n"
-							+ "(5) Grade 5\n"
-							+ "(6) Grade 6\n"
-							+ "Enter your choice: ");
-							level = scanner.nextLine();
-							switch(level){
-								case "1":
-									addSubject(level);
-									isValidLevel = true;
-									break;
-								case "2":
-									addSubject(level);
-									isValidLevel = true;
-									break;
-								case "3":	
-									addSubject(level);
-									isValidLevel = true;
-									break;
-								case "4":
-									addSubject(level);
-									isValidLevel = true;
-									break;
-								case "5":
-									addSubject(level);
-									isValidLevel = true;
-									break;
-								case "6":
-									addSubject(level);
-									isValidLevel = true;
-									break;
-								default:
-									System.out.println("\nPlease enter valid number\n");
-									break;
-							}
-							if(isValidLevel){
-								isValidLevel = false;
-								fullName = lastName + ", " + firstName + " " + middleName; 
-								break;
-							}else{
-								continue;
-							}
-						}
-						System.out.print("\nPlease confirm if you want to proceed with the following information: \n\n" 
-						+ "Full Name: " + fullName
-						+ "\nEmail: " + email
-						+ "\nAge: " + age
-						+ "\nGrade level: " + level
-						+ "\n\nType Y to confirm or type any other key to make any changes: ");
+						System.out.print("\nPlease confirm if you want to proceed with the following information: \n\n"+ "Full Name: " + fullName.toUpperCase() + "\nEmail: " + email+ "\nAge: " + age + "\n\nType Y to confirm or type any other key to make any changes: ");
 						String confirm = scanner.nextLine();
-
+						// validation diri if puno naba ang section A og B
 						if(confirm.equalsIgnoreCase("y")){
-							switch(level){
-								case "1":
-									if(section1AEnrolled < 10){
-										section1AEnrolled++;
-										section = "1-A";
-										enrolled = true;
-									}else if(section1BEnrolled < 10){
-										section1BEnrolled++;
-										section = "1-B";
-										enrolled = true;
-									}
-									break;
-								case "2":
-									if(section2AEnrolled < 10){
-										section2AEnrolled++;
-										section = "2-A";
-										enrolled = true;
-									}else if(section2BEnrolled < 10){
-										section2BEnrolled++;
-										section = "2-B";
-										enrolled = true;
-									}
-									break;
-								case "3":
-									if(section3AEnrolled < 10){
-										section3AEnrolled++;
-										section = "3-A";
-										enrolled = true;
-									}else if(section3BEnrolled < 10){
-										section3BEnrolled++;
-										section = "3-B";
-										enrolled = true;
-									}
-									break;
-								case "4":
-									if(section4AEnrolled < 10){
-										section4AEnrolled++;
-										section = "4-A";
-										enrolled = true;
-									}else if(section4BEnrolled < 10){
-										section4BEnrolled++;
-										section = "4-B";
-										enrolled = true;
-									}
-									break;
-								case "5":
-									if(section5AEnrolled < 10){
-										section5AEnrolled++;
-										section = "5-A";
-										enrolled = true;
-									}else if(section5BEnrolled < 10){
-										section5BEnrolled++;
-										section = "5-B";
-										enrolled = true;
-									}
-									break;
-								case "6":
-									if(section6AEnrolled < 10){
-										section6AEnrolled++;
-										section = "6-A";
-										enrolled = true;
-									}else if(section6BEnrolled < 10){
-										section6BEnrolled++;
-										section = "6-B";
-										enrolled = true;
-									}
-									break;
+							if(sectionAEnrolled < 10){
+								sectionAEnrolled++;
+								section = "A";
+								enrolled = true;
+							}else if(sectionBEnrolled < 10){
+								sectionBEnrolled++;
+								section = "B";
+								enrolled = true;
 							}
+
 							if(enrolled){
+								// gi tawag nato ang gi himo nato nga methods
+								addSubject();
+								// gi pasa nato ang firstName,lastname... ni user kay ang getORF kailangan siyag ing ani getORF(String firstName, String lastName, String middleName, String email, String section) meaning naa tay eh pasa
 								getORF(firstName, lastName, middleName, email, section);
 							}else{
-								System.out.println("\n\nUnfortunately, all sections in this grade level are currently full. We regret to inform you that we cannot enroll the student at this time.");
+								System.out.println("\n\nUnfortunately, all sections are currently full. We regret to inform you that we cannot enroll the student at this time.");
 							}
+							// gi clear nato tong gi addSubject() para di mag duplicate pag mag enroll napud og bag o
 							subject.clear();
 							break;
 						}else{
@@ -200,35 +88,27 @@ public class EnrollmentSystem {
 				case "2":
 					System.out.println("\nExiting program...");
 					System.exit(0);
+					scanner.close();
 					break;
 				default:
 					System.out.println("\nInvalid input!");
 			}
 		}
-		scanner.close();
 	}
-	
 	public static void getORF(String firstName, String lastName, String middleName, String email, String section){
-		student.add(new Student(firstName, lastName, middleName, email, section));
-		System.out.println("\n\n\n\nStudent Name: " + fullName.toUpperCase()
-		+ "\nSection: " + section
-		+ "\nSchool Year: " + schoolYear + "\n"
-		+ "---------------------------------------------------"
-		);
-		System.out.printf("%-20s%-20s%-20s\n", "Subject", "Code", "Credit");
-		for (Subject subjects : subject) {
-			System.out.printf("%-20s%-20s%-20d\n", subjects.getSubjectName(), subjects.getCode(),subjects.getCreditHours());
+		System.out.println("\n\n\n\nStudent Name: " + fullName.toUpperCase()+ "\nSection: " + section+ "\nSchool Year: " + schoolYear + "\n"+"----------------------------------------------------------------------");
+		System.out.printf("%-25s%-30s%-20s\n", "Subject", "Code", "Time");
+		for (Subject subject : subject) {
+			System.out.printf("%-25s%-23s%-20s\n", subject.getSubjectName(), subject.getSubjectCode(), subject.getSubjectTime());
 		}
-
+		System.out.print("----------------------------------------------------------------------");
 	}
-
-	public static void addSubject(String gradeLevel){
-		subject.add(new Subject("Math", "MTH10" + gradeLevel, 3));
-		subject.add(new Subject("English", "ENG10" + gradeLevel, 3));
-		subject.add(new Subject("Science", "SCI10" + gradeLevel, 4));
-		subject.add(new Subject("Social Studies", "SS10" + gradeLevel, 3));
-		subject.add(new Subject("MAPEH", "MAPEH10" + gradeLevel, 2));
-		subject.add(new Subject("TLE", "TLE10" + gradeLevel, 2));
-		subject.add(new Subject("Values Education", "VAL10" + gradeLevel, 2));
+	public static void addSubject(){
+		subject.add(new Subject("Math", "MATH", "8:30 AM - 9:15 AM"));
+		subject.add(new Subject("Filipino", "Fil", "9:15 AM - 10:00 AM"));
+		subject.add(new Subject("English", "ENG", "10:30 AM - 11:15 AM"));
+		subject.add(new Subject("Science", "SCI", "11:15 AM - 12:00 PM"));
+		subject.add(new Subject("Social Studies", "SS", "1:00 PM - 1:45 PM"));
+		subject.add(new Subject("Music, Arts, and PE", "MAPE", "1:45 PM - 2:30 PM"));
 	} 
 }

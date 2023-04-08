@@ -1,23 +1,23 @@
 public class Subject{
   private String subjectName;
-  private String code;
-  private int creditHours;
+  private String subjectCode;
+  private String subjectTime;
 
-  public Subject(String subjectName, String code, int creditHours){
+  public Subject(String subjectName, String subjectCode, String subjectTime){
     this.subjectName = subjectName;
-    this.code = code;
-    this.creditHours = creditHours;
+    this.subjectCode = subjectCode;
+    this.subjectTime = subjectTime;
   }
   
   public String getSubjectName(){
     return subjectName;
   }
   
-  public String getCode(){
-    return code;
+  public String getSubjectCode(){
+    return subjectCode;
   }
 
-  public int getCreditHours(){
-    return creditHours;
+  public String getSubjectTime(){
+    return subjectTime;
   }
 }
