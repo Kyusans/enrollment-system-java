@@ -1,11 +1,12 @@
 import java.util.ArrayList;
 import java.util.Scanner;
 import java.time.Year;
+import java.util.Date;
 
 public class EnrollmentSystem {
 	// nag initialize ta diri og global array og variables para ma access sa tanan method (main method, getORF method, og ang addSubject method)
 	public static ArrayList<Subject> subject = new ArrayList<Subject>();
-	public static String fullName = "", section, email;
+	public static String fullName = "", section, email, birthday, gender;
 	// kani kay para makuha nato ang year karun og next year
 	public static int currentYear = Year.now().getValue();
 	public static int nextYear = currentYear + 1;
@@ -15,7 +16,7 @@ public class EnrollmentSystem {
 	public static String schoolYear = String.format("%d-%d", currentYear, nextYear);
 	public static void main(String[] args) {
 		Scanner scanner = new Scanner(System.in);
- 		String firstName, lastName, middleName, birthday, gender;
+ 		String firstName, lastName, middleName;
 		boolean validForm = false, exit = false, enrolled = false;
 		int sectionAEnrolled = 0, sectionBEnrolled = 0;
 		// remember nga kaning \n kay pang break og line para spacing. og kaning %s kay ma replace sa schoolYear nga variable
@@ -35,7 +36,16 @@ public class EnrollmentSystem {
 							middleName = scanner.nextLine();
 							System.out.print("Enter your email: ");
 							email = scanner.nextLine();
-								
+							// validation ni siya if naay empty input like walay gi butang si user
+							if(firstName.equals("") || lastName.equals("") || middleName.equals("") || email.equals("")){
+								System.out.println("\nThere was an empty input please try again.");
+							}else{
+								// gi set nato ang fullName diri para ma gamit tani sa ORF sa student
+								fullName = lastName + ", " + firstName + " " + middleName; 
+								// gi set nato ang validForm to true para mo hawa ta ani nga do while loop
+								validForm = true;
+							}
+						}while(!validForm);
 							do{
 								System.out.print("Enter your birthday (in the format MM/DD/YYYY): ");
 								birthday = scanner.nextLine();
@@ -46,7 +56,6 @@ public class EnrollmentSystem {
 									System.out.println("\nInvalid input. Please enter your birthday in the format MM/DD/YYYY");
 								}
 							}while(true);
-
 							do{
 								System.out.print("Enter your gender (M/F): ");
 								// toUpperCase() para pang capitalize lang sa String. bahalag "m" lang iyang gi input, "M" ang ma butang.
@@ -57,16 +66,7 @@ public class EnrollmentSystem {
 									System.out.println("\nInvalid input. Please enter M or F for gender.");
 								}
 							}while(true);
-							// validation ni siya if naay empty input like walay gi butang si user
-							if(firstName.equals("") || lastName.equals("") || middleName.equals("") || email.equals("") || birthday.equals("") || gender.equals("")){
-								System.out.println("\nThere was an empty input please try again.");
-							}else{
-								// gi set nato ang fullName diri para ma gamit tani sa ORF sa student
-								fullName = lastName + ", " + firstName + " " + middleName; 
-								// gi set nato ang validForm to true para mo hawa ta ani nga do while loop
-								validForm = true;
-							}
-						}while(!validForm);
+
 						//confirmation diri if okay naba ang gi input ni user
 						System.out.print("\nPlease confirm if you want to proceed with the following information: \n\n"+ "Full Name: " + fullName.toUpperCase() + "\nEmail: " + email + "\nBirthday: " + birthday + "\nGender: " + gender + "\n\nType Y to confirm or type any other key to make any changes: ");
 						String confirm = scanner.nextLine();
@@ -112,7 +112,8 @@ public class EnrollmentSystem {
 
 	// kani nga method kay pang display lang sa ORF sa student.
 	public static void getORF(){
-		System.out.println("\n\n\n\nStudent Name: " + fullName.toUpperCase()+ "\nSection: " + section+ "\nSchool Year: " + schoolYear + "\n"+"----------------------------------------------------------------------");
+		Date date = new Date();
+		System.out.println("\n\n\n\nStudent Name: " + fullName.toUpperCase()+ "\nSection: " + section+ "\nSchool Year: " + schoolYear + "\nDate of enrollment: " + date + "\n"+"----------------------------------------------------------------------");
 		System.out.printf("%-25s%-30s%-20s\n", "Subject", "Code", "Time");
 		// kani, gi kuha nato tanan subjects sa "subject" nga arrayList nga gi initialize nato sa taas
 		// murag sa python last sem ba nga - for every subjects in subject
