@@ -17,16 +17,18 @@ public class EnrollmentSystem {
 	public static void main(String[] args) {
 		Scanner scanner = new Scanner(System.in);
  		String firstName, lastName, middleName;
-		boolean validForm = false, exit = false, enrolled = false;
+		boolean validForm = false, exit = false, enrolled = false, confirmed = false;
 		int sectionAEnrolled = 0, sectionBEnrolled = 0;
 		// remember nga kaning \n kay pang break og line para spacing. og kaning %s kay ma replace sa schoolYear nga variable
 		System.out.printf("\n\nWelcome to Enrollment System for School year %s!\n", schoolYear);
 		while (!exit) {
+			confirmed = false;
 			System.out.print("\n1. Enroll\n2. Exit\nEnter your choice: ");
 			String choice = scanner.nextLine();
 			switch(choice){
 				case "1":
-					System.out.println("\n-------------Enter personal information-------------\n");
+					while(!confirmed){
+						System.out.println("\n-------------Enter personal information-------------\n");
 						do{
 							System.out.print("Enter your first name: ");
 							firstName = scanner.nextLine();
@@ -66,7 +68,6 @@ public class EnrollmentSystem {
 									System.out.println("\nInvalid input. Please enter M or F for gender.");
 								}
 							}while(true);
-
 						//confirmation diri if okay naba ang gi input ni user
 						System.out.print("\nPlease confirm if you want to proceed with the following information: \n\n"+ "Full Name: " + fullName.toUpperCase() + "\nEmail: " + email + "\nBirthday: " + birthday + "\nGender: " + gender + "\n\nType Y to confirm or type any other key to make any changes: ");
 						String confirm = scanner.nextLine();
@@ -74,6 +75,7 @@ public class EnrollmentSystem {
 						if(confirm.equalsIgnoreCase("y")){
 							// if less than 10 pa gani ang section A, section A mabutang ang student. Else if kay sa section B, else kay FULL na ang section
 							if(sectionAEnrolled < 10){
+								// ++ meaning -> variable += 1;
 								sectionAEnrolled++;
 								section = "A";
 								enrolled = true;
@@ -82,8 +84,7 @@ public class EnrollmentSystem {
 								section = "B";
 								enrolled = true;
 							}
-
-							// kaning if(enrolled), meaning enrolled kay true murag " enrolled = true . kung mag himo kag false, mag butang kag " ! " for example, if(!enrolled) - meaning enrolled = false 
+							// kaning if(enrolled), meaning enrolled kay true murag " enrolled = true . kung mag himo kag false, mag butang kag " ! " for example, if(!enrolled) -> meaning "enrolled = false" 
 							if(enrolled){
 								// gi tawag nato ang gi himo nato nga methods
 								addSubject();
@@ -94,10 +95,13 @@ public class EnrollmentSystem {
 							}
 							// gi clear nato tong gi addSubject() para di mag duplicate pag mag enroll napud og bag o
 							subject.clear();
+							confirmed = true;
 							break;
 						}else{
 							continue;
 						}
+					}
+					break;
 				case "2":
 					System.out.println("\nExiting program...");
 					//System.exit(0); kay pang stop sa program
@@ -113,7 +117,7 @@ public class EnrollmentSystem {
 	// kani nga method kay pang display lang sa ORF sa student.
 	public static void getORF(){
 		Date date = new Date();
-		System.out.println("\n\n\n\nStudent Name: " + fullName.toUpperCase()+ "\nSection: " + section+ "\nSchool Year: " + schoolYear + "\nDate of enrollment: " + date + "\n"+"----------------------------------------------------------------------");
+		System.out.println("\n\n\nStudent Name: " + fullName.toUpperCase()+ "\nSection: " + section+ "\nSchool Year: " + schoolYear + "\nDate of enrollment: " + date + "\n"+"----------------------------------------------------------------------");
 		System.out.printf("%-25s%-30s%-20s\n", "Subject", "Code", "Time");
 		// kani, gi kuha nato tanan subjects sa "subject" nga arrayList nga gi initialize nato sa taas
 		// murag sa python last sem ba nga - for every subjects in subject
