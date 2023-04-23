@@ -10,17 +10,9 @@ public class EnrollmentSystem {
 	public static int currentYear = Year.now().getValue();
 	public static int nextYear = currentYear + 1;									
 	public static String schoolYear = String.format("%d-%d", currentYear, nextYear);
-	public static int section = 1, sectionCount = 9;
+	public static int section = 1, sectionCount = 0;
 	public static void main(String[] args) {
-		student.add(new Student("Joe Rogan", "1"));
-		student.add(new Student("John Doe", "1"));
-		student.add(new Student("Jane Smith", "1"));
-		student.add(new Student("Alice Davis", "1"));
-		student.add(new Student("Bob Johnson", "1"));
-		student.add(new Student("Bob Joe", "1"));
-		student.add(new Student("Joe Johnson", "1"));
-		student.add(new Student("Rogan John", "1"));
-		student.add(new Student("Builder Bob", "1"));
+
 		Scanner scanner = new Scanner(System.in);
  		String firstName, lastName, middleName;
 		boolean validForm = false, exit = false, confirmed = false;
@@ -78,6 +70,8 @@ public class EnrollmentSystem {
 							}else{
 								section++;
 								student.add(new Student(fullName , Integer.toString(section)));
+                addSubject();
+								getORF();
 								sectionCount = 0;
 							}
 							subject.clear();
